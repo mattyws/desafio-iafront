@@ -1,11 +1,14 @@
 import os
+from functools import partial
+
 import click
 from datetime import timedelta
+import multiprocessing as mp
 
-from desafio_iafront.data.dataframe_utils import read_csv, read_partitioned_json
-from desafio_iafront.data.saving import save_partitioned
-from desafio_iafront.jobs.pedidos.contants import SAVING_PARTITIONS
-from desafio_iafront.jobs.pedidos.utils import _prepare
+import numpy
+import sys
+from desafio_iafront.data.dataframe_utils import read_csv
+from desafio_iafront.jobs.pedidos.utils import process_data_with_multiprocessing
 
 
 @click.command()
@@ -18,39 +21,26 @@ from desafio_iafront.jobs.pedidos.utils import _prepare
 def main(pedidos, visitas, produtos, saida, data_inicial, data_final):
     produtos_df = read_csv(produtos)
     produtos_df["product_id"] = produtos_df["product_id"].astype(str)
-
     delta: timedelta = (data_final - data_inicial)
     date_partitions = [data_inicial.date() + timedelta(days=days) for days in range(delta.days)]
-
-    for data in date_partitions:
-        hour_partitions = list(range(0, 23))
-
-        for hour in hour_partitions:
-            hour_snnipet = f"hora={hour}"
-
-            data_str = data.strftime('%Y-%m-%d')
-            date_partition = f"data={data_str}"
-
-            visitas_partition = os.path.join(visitas, date_partition, hour_snnipet)
-            visitas_df = read_partitioned_json(visitas_partition)
-            visitas_df["product_id"] = visitas_df["product_id"].astype(str)
-            visitas_df["visit_id"] = visitas_df["visit_id"].astype(str)
-
-            pedidos_partition = os.path.join(pedidos, date_partition, hour_snnipet)
-            pedidos_df = read_partitioned_json(pedidos_partition)
-            pedidos_df["visit_id"] = pedidos_df["visit_id"].astype(str)
-
-            visita_com_produto_df = visitas_df.merge(produtos_df, how="inner", on="product_id", suffixes=("", "_off"))
-            visita_com_produto_e_conversao_df = visita_com_produto_df.merge(pedidos_df, how="left",
-                                                                            on="visit_id", suffixes=("", "_off"))
-
-            visita_com_produto_e_conversao_df["data"] = data_str
-            visita_com_produto_e_conversao_df["hora"] = hour
-
-            prepared = _prepare(visita_com_produto_e_conversao_df)
-            save_partitioned(prepared, saida, SAVING_PARTITIONS)
-            print(f"Concluído para {date_partition} {hour}h")
-
+    total_partitions = len(date_partitions)
+    date_partitions_split = numpy.array_split(date_partitions, 4)
+    # Usando multiprocessing para acelerar o processo de consumo das partições
+    # Tendo em vista que os resultados finais estão sendo salvos em disco, facilita o uso da biblioteca
+    with mp.Pool(processes=4) as pool:
+        manager = mp.Manager()
+        manager_queue = manager.Queue()
+        # Usando partial para fixar os valor nas variáveis
+        process_func = partial(process_data_with_multiprocessing, pedidos=pedidos, produtos_df=produtos_df,
+                                    saida=saida, visitas=visitas, manager_queue=manager_queue)
+        map_obj = pool.map_async(process_func, date_partitions_split)
+        consumed = 0
+        while not map_obj.ready() or manager_queue.qsize() != 0:
+            for _ in range(manager_queue.qsize()):
+                manager_queue.get()
+                consumed += 1
+            sys.stderr.write('\rPartições consumidas {0:%}'.format(consumed / total_partitions))
+    print("\nTudo pronto!")
 
 if __name__ == '__main__':
     main()
