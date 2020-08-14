@@ -76,5 +76,5 @@ def process_data_with_multiprocessing(date_partitions: [], pedidos: str, produto
         hour_partitions = list(range(0, 23))
         for hour in hour_partitions:
             date_partition = process_partition(data, hour, pedidos, produtos_df, saida, visitas)
-            manager_queue.put(str(data)+str(hour))
             # print(f"Concluído para {date_partition} {hour}h")
+        manager_queue.put(str(data))

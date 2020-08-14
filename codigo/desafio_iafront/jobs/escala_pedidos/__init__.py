@@ -1,0 +1,1 @@
+from desafio_iafront.jobs.escala_pedidos.job_scale import main

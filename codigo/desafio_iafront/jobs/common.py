@@ -5,6 +5,11 @@ from sklearn.base import TransformerMixin
 
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
 
+columns_to_scale = ['preco', 'prazo', 'frete', 'latitude', 'longitude']
+
+def get_feature_index(feature:str):
+    return columns_to_scale.index(feature)
+
 
 def prepare_dataframe(departamentos_lista: Sequence[str], dataset_path, data_inicial: datetime,
                       data_final: datetime):
@@ -34,13 +39,10 @@ def _extracting_coordinates(dataframe: pd.DataFrame) -> pd.DataFrame:
     return dataframe.join(expanded_cols).drop('coordenadas', axis=1)
 
 
-def transform(dataframe: pd.DataFrame, scaler: TransformerMixin) -> pd.DataFrame:
-    fields_to_normalize = dataframe.filter(['preco', 'prazo', 'frete', 'latitude', 'longitude']).to_numpy()
-
+def transform(dataframe: pd.DataFrame, fields: Sequence[str], scaler: TransformerMixin) -> pd.DataFrame:
+    fields_to_normalize = dataframe.filter(fields).to_numpy()
     feature_scaled = scaler.fit_transform(fields_to_normalize)
-
     dataframe['features'] = list(feature_scaled)
-
     return dataframe
 
 

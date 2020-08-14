@@ -3,7 +3,7 @@ from desafio_iafront.jobs.escala_pedidos.constants import scale_methods
 from sklearn.preprocessing import Normalizer, StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler, PowerTransformer
 
 from desafio_iafront.data.saving import save_partitioned
-from desafio_iafront.jobs.common import prepare_dataframe, transform
+from desafio_iafront.jobs.common import prepare_dataframe, transform, columns_to_scale
 
 
 @click.command()
@@ -11,10 +11,10 @@ from desafio_iafront.jobs.common import prepare_dataframe, transform
 @click.option('--saida', type=click.Path(exists=False, dir_okay=True, file_okay=False))
 @click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
 @click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
-@click.option('--departamentos', type=str, help="Departamentos separados por virgula")
 @click.option('--metodo-escala', type=click.Choice(scale_methods),
               help="Escolha o método de escala usado")
-def main(visitas_com_conversao, saida, data_inicial, data_final, departamentos, metodo_escala):
+@click.option('--departamentos', type=str, help="Departamentos separados por virgula")
+def main(visitas_com_conversao, saida, data_inicial, data_final, metodo_escala, departamentos):
     departamentos_lista = [departamento.strip() for departamento in departamentos.split(",")]
 
     result = prepare_dataframe(departamentos_lista, visitas_com_conversao, data_inicial, data_final)
@@ -33,7 +33,7 @@ def main(visitas_com_conversao, saida, data_inicial, data_final, departamentos, 
         scaler = RobustScaler()
     elif metodo_escala == "power":
         scaler = PowerTransformer()
-    result_scaled = transform(result, scaler)
+    result_scaled = transform(result, columns_to_scale, scaler)
 
     # salva resultado
     save_partitioned(result_scaled, saida, ['data', 'hora'])
