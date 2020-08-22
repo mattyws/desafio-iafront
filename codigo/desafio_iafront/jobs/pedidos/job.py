@@ -8,7 +8,7 @@ import multiprocessing as mp
 import numpy
 import sys
 from desafio_iafront.data.dataframe_utils import read_csv
-from desafio_iafront.jobs.pedidos.utils import process_data_with_multiprocessing
+from desafio_iafront.jobs.pedidos.utils import partition_data_by_department
 
 
 @click.command()
@@ -31,8 +31,8 @@ def main(pedidos, visitas, produtos, saida, data_inicial, data_final):
         manager = mp.Manager()
         manager_queue = manager.Queue()
         # Usando partial para fixar os valor nas variáveis
-        process_func = partial(process_data_with_multiprocessing, pedidos=pedidos, produtos_df=produtos_df,
-                                    saida=saida, visitas=visitas, manager_queue=manager_queue)
+        process_func = partial(partition_data_by_department, pedidos=pedidos, produtos_df=produtos_df,
+                               saida=saida, visitas=visitas, manager_queue=manager_queue)
         map_obj = pool.map_async(process_func, date_partitions_split)
         consumed = 0
         while not map_obj.ready() or manager_queue.qsize() != 0:

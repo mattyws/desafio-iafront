@@ -13,9 +13,12 @@ from desafio_iafront.jobs.common import prepare_dataframe, transform, columns_to
 @click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
 @click.option('--metodo-escala', type=click.Choice(scale_methods),
               help="Escolha o método de escala usado")
-@click.option('--departamentos', type=str, help="Departamentos separados por virgula")
+@click.option('--departamentos', type=str, help="Departamentos separados por virgula", default=None, required=False)
 def main(visitas_com_conversao, saida, data_inicial, data_final, metodo_escala, departamentos):
-    departamentos_lista = [departamento.strip() for departamento in departamentos.split(",")]
+    if departamentos is not None:
+        departamentos_lista = [departamento.strip() for departamento in departamentos.split(",")]
+    else:
+        departamentos_lista = None
 
     result = prepare_dataframe(departamentos_lista, visitas_com_conversao, data_inicial, data_final)
 
@@ -25,9 +28,9 @@ def main(visitas_com_conversao, saida, data_inicial, data_final, metodo_escala, 
         scaler = Normalizer()
     elif metodo_escala == "standard":
         scaler = StandardScaler()
-    elif metodo_escala == "min_max":
+    elif metodo_escala == "minmax":
         scaler = MinMaxScaler()
-    elif metodo_escala == "max_abs":
+    elif metodo_escala == "maxabs":
         scaler = MaxAbsScaler()
     elif metodo_escala == "robust":
         scaler = RobustScaler()

@@ -26,7 +26,7 @@ from desafio_iafront.jobs.common import filter_date
 @click.option('--assign-labels', type=click.STRING, default='kmeans', required=False)
 @click.option('--degree', type=click.FLOAT, default=3.0, required=False)
 @click.option('--coef0', type=click.FLOAT, default=1.0, required=False)
-@click.option('--n-jobs', type=click.INT, default=None, required=False)
+@click.option('--n-jobs', type=click.INT, default=-1, required=False)
 def spectral(dataset: str, number_of_cluster:int, saida: str, data_inicial, data_final, eigen_solver:str, n_components:int,
            random_state:int, n_init:int, gamma:float, affinity:str, n_neighbors:int, eigen_tol:float, assign_labels:str,
            degree:float, coef0:float, n_jobs:int):

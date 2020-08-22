@@ -2,11 +2,14 @@ from collections import Sequence
 
 import numpy
 import pandas as pd
+from bokeh.models import HoverTool
 from bokeh.models.ranges import FactorRange
 from bokeh.models.sources import ColumnDataSource
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 from desafio_iafront.jobs.common import columns_to_scale
+from sklearn.decomposition import PCA
+from bokeh.plotting import output_file, show
 
 COLORS = ["green", "blue", "red", "orange", "purple"]
 
@@ -21,12 +24,14 @@ def plot(dataframe: pd.DataFrame, x_axis, y_axis, cluster_label, title=""):
 
     return p
 
-def plot_scatter(x_values: pd.Series, y_values: pd.Series, x_axis:str, y_axis:str, color="green", title=""):
-    p = figure(title=title, x_axis_label=x_axis.capitalize(), y_axis_label=y_axis.capitalize())
-    p.scatter(x_values.values.tolist(), y_values.values.tolist(), fill_color=color)
+def plot_scatter(x_values: pd.Series, y_values: pd.Series, x_axis:str, y_axis:str, color="green",
+                 title="", p:Figure=None):
+    if p is None:
+        p = figure(title=title, x_axis_label=x_axis.capitalize(), y_axis_label=y_axis.capitalize())
+    p.scatter(x_values.values.tolist(), y_values.values.tolist(), color=color)
     return p
 
-def plot_histogram(values: pd.Series, feature:str, color="green", title=""):
+def plot_histogram(values: pd.Series, feature:str, color="green", title="", p:Figure=None):
     hist, edges = numpy.histogram(values)
     hist_df = pd.DataFrame({feature: hist,
                             "left": edges[:-1],
@@ -35,17 +40,29 @@ def plot_histogram(values: pd.Series, feature:str, color="green", title=""):
                                                           right in zip(hist_df["left"], hist_df["right"])]
     data_src = ColumnDataSource(hist_df)
 
-    p = figure(title=title, x_axis_label=feature.capitalize(), y_axis_label="Count")
+    if p is None:
+        p = figure(title=title, x_axis_label=feature.capitalize(), y_axis_label="Count")
     p.quad(bottom = 0, top = feature, left = "left",
                 right = "right", source = data_src, fill_color = color,
                 line_color = "black", fill_alpha = 0.7)
     return p
 
-def plot_vbar(categories:[], counts:[], title=""):
+def plot_vbar(categories:[], counts:[], title="", p:Figure=None, plot_width:int=750):
     source = ColumnDataSource(data=dict(x=categories, counts=counts))
-    p = figure(x_range=FactorRange(*categories), plot_height=250, title=title,
-           toolbar_location=None, tools="")
+    if p is None:
+        p = figure(x_range=FactorRange(*categories), plot_height=250, title=title,
+               tools="pan,wheel_zoom,box_zoom,reset, save", plot_width=plot_width)
     p.vbar(x='x', top='counts', width=0.9, source=source)
+    p.add_tools(HoverTool(tooltips=[("CATEGORY", "@x"), ("TOTAL", "@counts")]))
+    return p
+
+def plot_vbar_stacked(categories:[], data:dict, stacks_labels:[], title="", p:Figure=None, plot_width:int=750):
+    # source = ColumnDataSource(data=dict(x=categories, counts=counts))
+    colors = [set_color(_) for _, value in enumerate(stacks_labels)]
+    if p is None:
+        p = figure(x_range=FactorRange(*categories), plot_height=250, title=title, tooltips="$name @$name",
+               tools="pan,wheel_zoom,box_zoom,reset, save", plot_width=plot_width)
+    p.vbar_stack(stacks_labels, x='categories', width=0.9, color=colors, source=data, legend_label=stacks_labels)
     return p
 
 def plot_cluster_temporal_conversao(dataframe:pd.DataFrame, title=""):
@@ -62,7 +79,7 @@ def plot_cluster_temporal_conversao(dataframe:pd.DataFrame, title=""):
 
 def plot_line(x_values:pd.Series, y_values:pd.Series, p:Figure, legend="", color="green"):
     p.line(x_values, y_values, legend_label=legend, color=color)
-    return p
+    # return p
 
 
 def _unique(original):
@@ -73,5 +90,11 @@ def set_color(color):
     index = int(color) % len(COLORS)
 
     return COLORS[index]
+
+def transform_pca_2d(vector:numpy.array):
+    pca = PCA(n_components=2)
+    pca.fit(vector)
+    new_space = pca.transform(vector)
+    return new_space
 
 

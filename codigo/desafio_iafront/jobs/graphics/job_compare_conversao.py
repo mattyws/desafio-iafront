@@ -3,6 +3,7 @@ from functools import partial
 import click
 import os
 
+from bokeh.io import export_png
 from bokeh.io.output import output_file
 from bokeh.io.saving import save
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
@@ -35,12 +36,8 @@ def plot_conversao(dataset_clustered:str, saida, data_inicial, data_final):
         counts.append(convertido_counts[1])
         counts.append(convertido_counts[0])
     print(clusters_conversao)
-    p = plot_vbar(x, counts, title="Conversão por cluster")
+    p = plot_vbar(x, counts, title="Conversão por cluster", plot_width=1000)
     save(p)
-
-
-    # salva resultado
-    # save_partitioned(result_scaled, saida, ['data', 'hora'])
 
 
 if __name__ == '__main__':

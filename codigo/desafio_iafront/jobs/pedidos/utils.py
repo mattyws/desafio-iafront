@@ -4,6 +4,7 @@ import pandas as pd
 import multiprocessing as mp
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
 from desafio_iafront.data.saving import save_partitioned
+from desafio_iafront.jobs.common import combine_series_with_sum
 
 from desafio_iafront.jobs.pedidos.contants import KEPT_COLUNS, COLUMN_RENAMES, SAVING_PARTITIONS
 
@@ -55,7 +56,7 @@ def create_visitas_df(date_partition: str, hour_snnipet: str, visitas: pd.DataFr
     visitas_df["visit_id"] = visitas_df["visit_id"].astype(str)
     return visitas_df
 
-def process_partition(data: str, hour: int, pedidos: str, produtos_df: pd.DataFrame, saida: str, visitas: str) -> pd.DataFrame:
+def process_partition(data: str, hour: int, pedidos: str, produtos_df: pd.DataFrame, visitas: str) -> pd.DataFrame:
     hour_snnipet = f"hora={hour}"
 
     data_str = data.strftime('%Y-%m-%d')
@@ -67,14 +68,14 @@ def process_partition(data: str, hour: int, pedidos: str, produtos_df: pd.DataFr
 
     visita_com_produto_e_conversao_df = merge_visita_produto(data_str, hour, pedidos_df, produtos_df,
                                                              visitas_df)
+    return visita_com_produto_e_conversao_df
 
-    save_prepared(saida, visita_com_produto_e_conversao_df)
-
-def process_data_with_multiprocessing(date_partitions: [], pedidos: str, produtos_df: pd.DataFrame,
-                                      saida: str, visitas: str, manager_queue:mp.Queue):
+def partition_data_by_department(date_partitions: [], pedidos: str, produtos_df: pd.DataFrame,
+                                 saida: str, visitas: str, manager_queue:mp.Queue):
     for data in date_partitions:
         hour_partitions = list(range(0, 23))
         for hour in hour_partitions:
-            date_partition = process_partition(data, hour, pedidos, produtos_df, saida, visitas)
+            visita_com_produto_e_conversao_df = process_partition(data, hour, pedidos, produtos_df, visitas)
             # print(f"Concluído para {date_partition} {hour}h")
+            save_prepared(saida, visita_com_produto_e_conversao_df)
         manager_queue.put(str(data))

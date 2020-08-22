@@ -1,1 +1,0 @@
-from desafio_iafront.jobs.particiona_conversao.job import main

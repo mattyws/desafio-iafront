@@ -1,0 +1,1 @@
+from desafio_iafront.jobs.particiona_dados.particiona_conversao.job import particiona_conversao_cluster

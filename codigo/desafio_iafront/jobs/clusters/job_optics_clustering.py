@@ -25,12 +25,12 @@ from desafio_iafront.jobs.common import filter_date
 @click.option('--eps', type=click.FLOAT, default=None, required=False)
 @click.option('--xi', type=click.FLOAT, default=0.05, required=False)
 @click.option('--predecessor-correction', type=click.BOOL, default=True, required=False)
-@click.option('--min-cluster-size', type=(click.INT, click.FLOAT), default=None, required=False)
+@click.option('--min-cluster-size', type=click.INT, default=None, required=False)
 @click.option('--algorithm', type=click.STRING, default='auto', required=False)
 @click.option('--leaf-size', type=click.INT, default=30, required=False)
-@click.option('--n-jobs', type=click.INT, default=None, required=False)
+@click.option('--n-jobs', type=click.INT, default=-1, required=False)
 def optics(dataset: str, saida: str, data_inicial, data_final, min_samples:int, max_eps:int, metric:str, minkowski_p:int,
-           cluster_method:str, eps:float, xi:float, predecessor_correction:bool, min_cluster_size, algorithm:str,
+           cluster_method:str, eps:float, xi:float, predecessor_correction:bool, min_cluster_size:int, algorithm:str,
            leaf_size:int, n_jobs:int):
 
     filter_function = partial(filter_date, data_inicial=data_inicial, data_final=data_final)

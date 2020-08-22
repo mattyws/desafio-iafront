@@ -7,24 +7,21 @@ from functools import partial
 from desafio_iafront.jobs.graphics.utils import plot, plot_cluster_temporal_conversao
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
 from desafio_iafront.jobs.common import filter_date
-from desafio_iafront.jobs.particiona_conversao.utils import columns_to_aggregate
+from desafio_iafront.jobs.particiona_dados.utils import columns_to_aggregate
 
 
 @click.command()
-@click.option('--dataframe-path', type=click.Path(exists=True))
+@click.option('--dataset-conversao-agregada', type=click.Path(exists=True))
 @click.option('--agregar-por', type=click.Choice(columns_to_aggregate))
 @click.option('--saida', type=click.Path(exists=False, dir_okay=False, file_okay=True))
-# @click.option('--x_axis')
-# @click.option('--y_axis')
-# @click.option('--cluster_label')
-# @click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
-# @click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
-def analise_conversao_temporal(dataframe_path: str, agregar_por:str, saida:str): #, saida: str, x_axis, y_axis, cluster_label, data_inicial, data_final):
-    # filter_function = partial(filter_date, data_inicial=data_inicial, data_final=data_final)
-    dataframe = read_partitioned_json(dataframe_path) #, filter_function=filter_function)
+@click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
+@click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
+def analise_conversao_temporal(dataset_conversao_agregada: str, agregar_por:str, saida:str, data_inicial, data_final):
+    filter_function = partial(filter_date, data_inicial=data_inicial, data_final=data_final)
+    dataframe = read_partitioned_json(dataset_conversao_agregada, filter_function=filter_function)
 
     if agregar_por == 'data':
-        dataframe['label'] = dataframe['data']
+        dataframe['label'] = pandas.to_datetime(dataframe['data'], format="%Y-%m-%d")
     elif agregar_por == 'hora':
         dataframe.loc[:, 'hora'] = dataframe['hora'].apply('{0:0>2}'.format)
         dataframe['label'] = pandas.to_datetime(dataframe.apply(lambda x: "{} {}".format(x['data'], x['hora']), axis=1),
@@ -33,12 +30,11 @@ def analise_conversao_temporal(dataframe_path: str, agregar_por:str, saida:str):
         dataframe['label'] = pandas.to_datetime(dataframe.apply(lambda x: "{} {}:{}".format(x['data'], x['hora'],
                                                                                             x['minuto']), axis=1),
                                                 format="%Y-%m-%d %H:%M")
-    print(dataframe['label'])
     dataframe = dataframe.sort_values(by=['label'])
 
     output_file(saida)
 
-    figura = plot_cluster_temporal_conversao(dataframe, "Teste conversao temporal")
+    figura = plot_cluster_temporal_conversao(dataframe, title="Análise conversão temporal de clusteres")
 
     save(figura)
 

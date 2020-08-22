@@ -1,0 +1,85 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.1.1.min.js" integrity="sha384-kLr4fYcqcSpbuI95brIH3vnnYCquzzSxHPU6XGQCIkQRGJwhg0StNbj1eegrHs12" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="05391bd6-5389-40e6-9b93-b08dafbc878e" data-root-id="1002"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1163">
+          {"a726f656-8a0f-41b6-8ccd-d0d31c31ff14":{"roots":{"references":[{"attributes":{},"id":"1052","type":"UnionRenderers"},{"attributes":{"items":[{"id":"1038"},{"id":"1054"}]},"id":"1037","type":"Legend"},{"attributes":{},"id":"1053","type":"Selection"},{"attributes":{},"id":"1006","type":"DataRange1d"},{"attributes":{"text":"Convers\u00e3o para os top 10 ceps nos departamentos cama_mesa_banho"},"id":"1003","type":"Title"},{"attributes":{"fields":[]},"id":"1020","type":"Stack"},{"attributes":{},"id":"1008","type":"CategoricalScale"},{"attributes":{},"id":"1035","type":"UnionRenderers"},{"attributes":{"label":{"value":"N\u00e3o Convertido"},"renderers":[{"id":"1043"}]},"id":"1054","type":"LegendItem"},{"attributes":{"fields":["Convertido"]},"id":"1021","type":"Stack"},{"attributes":{},"id":"1010","type":"LinearScale"},{"attributes":{"fields":["Convertido","N\u00e3o Convertido"]},"id":"1023","type":"Stack"},{"attributes":{},"id":"1013","type":"CategoricalTicker"},{"attributes":{"fields":["Convertido"]},"id":"1022","type":"Stack"},{"attributes":{"formatter":{"id":"1034"},"ticker":{"id":"1013"}},"id":"1012","type":"CategoricalAxis"},{"attributes":{"data":{"Convertido":[342,327,333,236,297,254,297,277,238,236],"N\u00e3o Convertido":[2012,1741,1713,1563,1474,1494,1244,1251,1284,1250],"categories":["24220","24230","38400","35500","11680","22631","30140","29101","35900","38408"]},"selected":{"id":"1036"},"selection_policy":{"id":"1035"}},"id":"1024","type":"ColumnDataSource"},{"attributes":{"axis":{"id":"1012"},"ticker":null},"id":"1014","type":"Grid"},{"attributes":{},"id":"1016","type":"BasicTicker"},{"attributes":{},"id":"1034","type":"CategoricalTickFormatter"},{"attributes":{"formatter":{"id":"1032"},"ticker":{"id":"1016"}},"id":"1015","type":"LinearAxis"},{"attributes":{"axis":{"id":"1015"},"dimension":1,"ticker":null},"id":"1018","type":"Grid"},{"attributes":{"below":[{"id":"1012"}],"center":[{"id":"1014"},{"id":"1018"},{"id":"1037"}],"left":[{"id":"1015"}],"plot_height":250,"plot_width":1500,"renderers":[{"id":"1028"},{"id":"1043"}],"title":{"id":"1003"},"toolbar":{"id":"1019"},"toolbar_location":null,"x_range":{"id":"1001"},"x_scale":{"id":"1008"},"y_range":{"id":"1006"},"y_scale":{"id":"1010"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"factors":["24220","24230","38400","35500","11680","22631","30140","29101","35900","38408"]},"id":"1001","type":"FactorRange"},{"attributes":{"bottom":{"expr":{"id":"1022"}},"fill_color":{"value":"blue"},"line_color":{"value":"blue"},"top":{"expr":{"id":"1023"}},"width":{"value":0.9},"x":{"field":"categories"}},"id":"1041","type":"VBar"},{"attributes":{"bottom":{"expr":{"id":"1020"}},"fill_alpha":{"value":0.1},"fill_color":{"value":"green"},"line_alpha":{"value":0.1},"line_color":{"value":"green"},"top":{"expr":{"id":"1021"}},"width":{"value":0.9},"x":{"field":"categories"}},"id":"1027","type":"VBar"},{"attributes":{"data_source":{"id":"1024"},"glyph":{"id":"1026"},"hover_glyph":null,"muted_glyph":null,"name":"Convertido","nonselection_glyph":{"id":"1027"},"selection_glyph":null,"view":{"id":"1029"}},"id":"1028","type":"GlyphRenderer"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto"},"id":"1019","type":"Toolbar"},{"attributes":{"label":{"value":"Convertido"},"renderers":[{"id":"1028"}]},"id":"1038","type":"LegendItem"},{"attributes":{"source":{"id":"1024"}},"id":"1029","type":"CDSView"},{"attributes":{},"id":"1036","type":"Selection"},{"attributes":{},"id":"1032","type":"BasicTickFormatter"},{"attributes":{"source":{"id":"1039"}},"id":"1044","type":"CDSView"},{"attributes":{"bottom":{"expr":{"id":"1020"}},"fill_color":{"value":"green"},"line_color":{"value":"green"},"top":{"expr":{"id":"1021"}},"width":{"value":0.9},"x":{"field":"categories"}},"id":"1026","type":"VBar"},{"attributes":{"bottom":{"expr":{"id":"1022"}},"fill_alpha":{"value":0.1},"fill_color":{"value":"blue"},"line_alpha":{"value":0.1},"line_color":{"value":"blue"},"top":{"expr":{"id":"1023"}},"width":{"value":0.9},"x":{"field":"categories"}},"id":"1042","type":"VBar"},{"attributes":{"data_source":{"id":"1039"},"glyph":{"id":"1041"},"hover_glyph":null,"muted_glyph":null,"name":"N\u00e3o Convertido","nonselection_glyph":{"id":"1042"},"selection_glyph":null,"view":{"id":"1044"}},"id":"1043","type":"GlyphRenderer"},{"attributes":{"data":{"Convertido":[342,327,333,236,297,254,297,277,238,236],"N\u00e3o Convertido":[2012,1741,1713,1563,1474,1494,1244,1251,1284,1250],"categories":["24220","24230","38400","35500","11680","22631","30140","29101","35900","38408"]},"selected":{"id":"1053"},"selection_policy":{"id":"1052"}},"id":"1039","type":"ColumnDataSource"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"2.1.1"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1163').textContent;
+                  var render_items = [{"docid":"a726f656-8a0f-41b6-8ccd-d0d31c31ff14","root_ids":["1002"],"roots":{"1002":"05391bd6-5389-40e6-9b93-b08dafbc878e"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        clearInterval(timer);
+                        embed_document(root);
+                      } else {
+                        attempts++;
+                        if (attempts > 100) {
+                          clearInterval(timer);
+                          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        }
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>

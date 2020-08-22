@@ -25,6 +25,8 @@ def scatter_scale_analysis(dataframe_path: str, saida: str, x_axis, y_axis, data
     x_values = dataframe[x_axis]
     y_values = dataframe[y_axis]
 
+    print()
+
     figura_before = plot_scatter(x_values, y_values, x_axis, y_axis,
                                  title="Antes da escala: {} x {}".format(x_axis.capitalize(), y_axis.capitalize()))
     x_feature_index = get_feature_index(x_axis)

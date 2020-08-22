@@ -1,8 +1,10 @@
 import numpy as np
-from sklearn.cluster import KMeans, AgglomerativeClustering, AffinityPropagation, SpectralClustering, OPTICS
+from sklearn.cluster import KMeans, AgglomerativeClustering, AffinityPropagation, SpectralClustering, OPTICS, MeanShift, \
+    Birch
+from sklearn.mixture import GaussianMixture
 
 
-def kmeans(vector: np.array, n: int, init='k-means++', n_init=10, max_iter=300, tol=0.0001,
+def kmeans_clustering(vector: np.array, n: int, init='k-means++', n_init=10, max_iter=300, tol=0.0001,
            precompute_distances='deprecated', verbose=0, random_state=None,
            copy_x=True, n_jobs='deprecated', algorithm='auto'):
     k = KMeans(n_clusters=n, init=init, n_init=n_init, max_iter=max_iter, tol=tol,
@@ -20,6 +22,24 @@ def agglomerative_clustering(vector:np.array, n_clusters, affinity='euclidean', 
     agglomerative = agglomerative.fit(vector)
 
     return agglomerative.labels_
+
+def gaussian_mixtures_clustering(vector:np.array, n_clusters):
+    gmm = GaussianMixture(n_components=n_clusters)
+    gmm = gmm.fit(vector)
+    labels = gmm.predict(vector)
+    return labels
+
+def mean_shift_clustering(vector:np.array):
+    gmm = MeanShift(n_jobs=-1)
+    gmm = gmm.fit(vector)
+    labels = gmm.predict(vector)
+    return labels
+
+def birch_clustering(vector:np.array, n_cluster):
+    gmm = Birch(n_clusters=n_cluster)
+    gmm = gmm.fit(vector)
+    labels = gmm.predict(vector)
+    return labels
 
 def affinity_propagation(vector:np.array, damping=0.5, max_iter=200, convergence_iter=15, copy=True,
                          preference=None, affinity='euclidean', verbose=False, random_state=0):
