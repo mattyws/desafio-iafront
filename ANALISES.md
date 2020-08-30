@@ -76,8 +76,6 @@ Esses gráficos estão nesse [diretório](analise/analise_cluster/), e estão no
 | ----- | ----- | ----- |
 | <img src="analise/analise_cluster/kmeans_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_instancias_minmax.png" height="400px" width="400px"/>  |
 
-
-
 Iniciando pela distribuição gerada com os dados escalados por **MinMax**, pode-se verificar que nesses que os métodos de clustering
 conseguiram encontrar agrupamentos de pontos próximos, porém por conta da redução de dimensionalidade existe uma certa sobreposição
 de alguns clusters com outros, mas é possível determinar e delimitar as regiões de cada cluster. Essa sobreposição pode indicar
@@ -92,6 +90,10 @@ obteve uma distribuição de quantidade de pontos entre clusters única, porém 
 
 ## Standard
 
+| KMeans | Birch | GaussianMixtures |
+| ----- | ----- | ----- |
+| <img src="analise/analise_cluster/kmeans_instancias_standard.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_standard.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_instancias_standard.png" height="400px" width="400px"/>  |
+
 Para estes dados, o **Birch** possui uma distribuição de dados entre clusters parecido com o que foi obtido com o **MinMax** usando o
 mesmo algoritmo. Porém ao observar seu resultado no gráfico do PCA temos um comportamento de distribuição dos clusters totalmente diferente,
 onde para o **MinMax** houve a sobreposição de três clusters, aqui os pontos estão com uma distinção maior de suas fronteiras, com poucas sobreposição
@@ -102,6 +104,10 @@ de instâncias em cada cluster. Já para o **KMeans**, a distribuição e o grá
 Assim como no **MinMax** a taxa de conversão das visitas são muito próximas para todos os clusters em todos os algoritmos.
 
 ## Robust
+
+| KMeans | Birch | GaussianMixtures |
+| ----- | ----- | ----- |
+| <img src="analise/analise_cluster/kmeans_instancias_robust.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_robust.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_instancias_robust.png" height="400px" width="400px"/>  |
 
 Os dados escalados pelo o robust obtiveram resultados diferentes dos obtidos pelos dois últimos datasets. Primeiramente em seu gráfico gerado pelo espaço
 do PCA temos regiões lineares de agrupamentos de instâncias, no qual os clusters tiveram um grau de sobreposição nesse espaço em todos os algoritmos de
