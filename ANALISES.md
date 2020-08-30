@@ -142,7 +142,7 @@ para o job `jobs/graphics/job_plot_conversao_particionada.py` para gerar o gráf
 `analise/taxa_conversao_dia/`.
 
 Para cada um dos gráficos, é possível ver que todos os métodos de clustering obtiveram um valor próximo de conversão, entre os valores 0.15 e 0.175.
-Como não possuo conhecimento aprofundado na área para fazer uma análise mais aprofundada, não consigo dissertar se são bons valores ou quais
+Como não possuo conhecimento aprofundado na área para fazer uma análise, não consigo dissertar se são bons valores ou quais
 clusters deveriam sofrer alguma intervenção, pois uma variação de 0.025 de valores me parecem muito próximos. O que diria que pode ser
 um bom foco de intervenção são os clusters que possuam um número de visitas absolutas maiores, o que pode gerar um aumento de conversão.
 Um comportamento que achei interessante é o fato da taxa de conversão estar caindo para diversos clusters nos últimos dias de dados do dataset,
@@ -152,7 +152,7 @@ que vale uma análise futura mais detalhada sobre esse fenômeno.
 # Considerações Finais
 
 Gostaria de concluir minha análise dizendo que essa análise foi feita e gerada apenas para um departamento por conta da limitação de memória
-pelo tamanho da base de dados. Como pipeline para essa minha análise, gerei dois scripts, o primeiro responsável por executar o
-processamento inicial nos dados e gerar as análises de conversão por departamento. O segundo realiza a pipeline das análises e processamentos
+pelo tamanho da base de dados. Como pipeline para essa minha análise, gerei dois scripts, o primeiro (`pipeline1.sh`) responsável por executar o
+processamento inicial nos dados e gerar as análises de conversão por departamento. O segundo (`pipeline2.sh`) realiza a pipeline das análises e processamentos
 subsequentes sobre os dados de um departamento passado como parâmetro, exceto as análises dos dados escalados.
 
