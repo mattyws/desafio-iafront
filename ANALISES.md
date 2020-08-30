@@ -74,8 +74,6 @@ Esses gráficos estão nesse [diretório](analise/analise_cluster/), e estão no
 ## MinMax
 
 <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px" align="left">Teste</img>
-![](analise/analise_cluster/birch_instancias_minmax.png)
-**Figure 1** - Birch clustering
 
 Iniciando pela distribuição gerada com os dados escalados por **MinMax**, pode-se verificar que nesses que os métodos de clustering
 conseguiram encontrar agrupamentos de pontos próximos, porém por conta da redução de dimensionalidade existe uma certa sobreposição
