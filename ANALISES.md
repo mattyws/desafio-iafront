@@ -11,11 +11,13 @@ conversão de uma visita.
 Primeiramente gostaria de discutir a análise da conversão de uma visita a partir dos departamentos existentes na base de dados fornecidas.
 Para isso, criei o job `codigo/jobs/graphics/job_analise_conversao_departamento.py` para ler uma base de dados particionada primeiramente
 por departamento (gerado pelo job `codigo/jobs/pedidos/job.py`) e gerar uma grade de gráficos com as conversões para cada departamento.
-No [arquivo](analise/analise_conversao_por_departamento.html) é mostrado a quantidade de visitas convertidas e não
+Nesse [arquivo](analise/analise_conversao_por_departamento.html) é mostrado a quantidade de visitas convertidas e não
 convertidas para cada departamento, ordenados pela quantidade total de visitas. No arquivo é possível verificar
 uma grade de gráficos para cada departamento, sendo que o primeiro departamento, com maior quantidade de visitas
-é o *cama_mesa_banho*. e minhas análises futuras irei focar apenas nas visitas relacionadas a este departamento, para toda o
-período de tempo existente na base de dados (01/06/2020 - 31/06/2020).
+é o *cama_mesa_banho*. Em minhas análises futuras irei focar apenas nas visitas relacionadas a este departamento, para toda o
+período de tempo existente na base de dados (01/06/2020 - 31/06/2020). Outro fato interessante é a taxa de conversão
+(representado pelo TC no título dos gráficos) entre diversos departamentos são muitos próximos, sendo também o valor
+obtido pelos clusters entre os algoritmos, como veremos mais a frente.
 
 Na segunda análise de relação com a conversão, das visitas feitas ao departamento *cama_mesa_banho*, extraí as conversões
 baseadas no prefixo do CEP da visita. O job `codigo/jobs/graphics/job_analise_conversao_cep.py` executa essa tarefa, gerando
@@ -23,7 +25,8 @@ um gráfico de barras verticais, coloridos pelos valores de conversãoo e não c
 O resultado pode ser visto no [arquivo](analise/analise_conversao_por_cep.html),
 com os 10 CEPs com maior quantidade de visitas. Essa análise foi um passo importante para tentar entender se o prefixo do
 CEP possui alguma informação interessante para a conversão de uma visita, e analisando o gráfico, é possível ver que a
-taxa de conversão diferencia dependendo do CEP de origem da visita.
+taxa de conversão diferencia dependendo do CEP de origem da visita, para o departamento *cama_mesa_banho*. Por exemplo,
+o CEP 24220 possui uma taxa de conversão de 0.145 enquanto  o CEP 38400 é de 0.163.
 
 # Escala dos Dados
 
@@ -31,9 +34,9 @@ Um tópico de importância antes de iniciar a discussão sobre a escala dos valo
 escolhidas por mim e porque. No código inicial, as variáveis escolhidas eram *preço*, *prazo*, *frete*, *latitude* e *longitude*.
 Decidi por manter os três primeiros, visto que é de conhecimento geral que são variáveis importantes para a compra de um produto,
 porém decidi remover a *latitude* e *longitude*, e adicionar o *cep_prefixo*. O raciocínio por trás de minha decisão foi que,
-dado que a *latitude* e *longitude* estavam atrelados à um CEP completo da visita, isso não tenha uma informação significativa
-ao identificar a conversão de um produto, pois um CEP completo pode indicar uma rua com diversas casas com habitos diferentes
-de visita e compra, e dispersa uma informação de conversão por região que o *cep_prefixo* consegue contribuir de melhor forma.
+dado que a *latitude* e *longitude* estavam atrelados à um CEP completo da visita, apenas o prefixo possui a informação
+dada pela *latitude* e *longitude*, com um adicional de informação de regionalidade para as visitas, o que é um fator para
+a compra de produtos.
 
 Agora gostaria de discutir os resultados obtidos para os métodos de escala de dados listados. O job `codigo/jobs/escala_pedidos/job_scale.py`
 ficou responsável de fazer a escala dos dados baseado em um método passado como parâmetro. Como pedido, após rodar os métodos
@@ -59,12 +62,18 @@ de instâncias no espaço. Porém obtive problemas na execução das quatro téc
 de memória para executar um clustering dado o número de instâncias, e **OPTICS** não conseguiu rodar em tempo hábil.
 
 No fim, executei o clustering com os métodos: **KMeans**, **Birch** (outra abordagem baseada em centroid) e **GaussianMixtures**, todos com 4 clusters como parâmetro.
+A decisão da quantidade de clusters usadas foi interamente aleatória, sei da existência de métodos estatísticos para encontrar um
+número de clusters ótimo porém não o apliquei pelo fator tempo.
+
 Para visualizar os resultados da distribuição das instâncias nos clusters, busquei criar uma função (`jobs/graphics/job_analise_clustered_components_pca.py`)
 para reduzir a dimensionalidade das minhas features para duas dimensões, usando o **Princial Component Analysis** (PCA),
-e dessa forma gerar um gráfico mais legível dessa distribuição das instâncias. Esses gráficos estão no [diretório](analise/analise_cluster/)
-`analise/analise_cluster/`, e como exemplo temos o arquivo `birch_instancias_minmax`.
+e dessa forma gerar um gráfico mais legível dessa distribuição das instâncias, baseadas no cluster atribuído as mesmas.
+Esses gráficos estão nesse [diretório](analise/analise_cluster/), e estão nomeados baseados no dataset e no método de clustering
+, como exemplo temos o arquivo `birch_instancias_minmax`.
 
 ## MinMax
+
+![Birch](analise/analise_cluster/birch_instancias_minmax.png)
 
 Iniciando pela distribuição gerada com os dados escalados por **MinMax**, pode-se verificar que nesses que os métodos de clustering
 conseguiram encontrar agrupamentos de pontos próximos, porém por conta da redução de dimensionalidade existe uma certa sobreposição

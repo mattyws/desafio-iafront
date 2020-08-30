@@ -56,13 +56,16 @@ def plot_vbar(categories:[], counts:[], title="", p:Figure=None, plot_width:int=
     p.add_tools(HoverTool(tooltips=[("CATEGORY", "@x"), ("TOTAL", "@counts")]))
     return p
 
-def plot_vbar_stacked(categories:[], data:dict, stacks_labels:[], title="", p:Figure=None, plot_width:int=750):
+def plot_vbar_stacked(categories:[], data:dict, stacks_labels:[], title="", p:Figure=None, plot_width:int=750,
+                      hover_tool_tooltips=None):
     # source = ColumnDataSource(data=dict(x=categories, counts=counts))
     colors = [set_color(_) for _, value in enumerate(stacks_labels)]
     if p is None:
         p = figure(x_range=FactorRange(*categories), plot_height=250, title=title, tooltips="$name @$name",
                tools="pan,wheel_zoom,box_zoom,reset, save", plot_width=plot_width)
     p.vbar_stack(stacks_labels, x='categories', width=0.9, color=colors, source=data, legend_label=stacks_labels)
+    if hover_tool_tooltips is not None:
+        p.add_tools(HoverTool(tooltips=hover_tool_tooltips))
     return p
 
 def plot_cluster_temporal_conversao(dataframe:pd.DataFrame, title=""):

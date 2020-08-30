@@ -37,22 +37,29 @@ def plot_conversao_by_cep(visitas_com_conversao:str, saida, data_inicial, data_f
     ceps = ceps.index.tolist()[:top_ceps]
     convertido = []
     nao_convertido = []
+    tc = []
     for cep in ceps:
         cep_df = dataset[dataset['cep_prefixo'] == cep]
         conversao_count: pandas.Series = cep_df['convertido'].value_counts()
         if 1 in conversao_count.index:
             convertido.append(conversao_count[1])
+            tc.append(conversao_count[1]/len(cep_df))
         else:
             convertido.append(0)
+            tc.append(0)
         if 0 in conversao_count.index:
             nao_convertido.append(conversao_count[0])
         else:
             nao_convertido.append(0)
+
     ceps = [str(cep) for cep in ceps]
-    data = {'categories': ceps, 'Convertido': convertido, 'Não Convertido': nao_convertido}
+    data = {'categories': ceps, 'Convertido': convertido, 'Não Convertido': nao_convertido, 'TC':tc}
+    hover_tool_tooltips =[("CATEGORY", "@x"), ("Convertido", "@Convertido"), ("Não Convertido", "@{Não Convertido}"),
+                          ("TC", "@TC")]
     figure = plot_vbar_stacked(ceps, data, ['Convertido', 'Não Convertido'],
                                title="Conversão para os top {} ceps nos departamentos {}".format(top_ceps, departamentos),
-                               plot_width=1500)
+                               plot_width=1500,
+                               hover_tool_tooltips=hover_tool_tooltips)
     output_file(saida)
     save(figure)
 
