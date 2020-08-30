@@ -73,6 +73,7 @@ Esses gráficos estão nesse [diretório](analise/analise_cluster/), e estão no
 
 ## MinMax
 
+<img src="analise/analise_cluster/birch_instancias_minmax.png" height="300px" width="300px" align="left" />
 ![](analise/analise_cluster/birch_instancias_minmax.png)
 **Figure 1** - Birch clustering
 
