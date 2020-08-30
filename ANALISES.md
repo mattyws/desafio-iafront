@@ -131,9 +131,9 @@ para cada cluster estão nos arquivos [KMeans](analise/analise_cluster/kmeans_co
 
 | Dataset | KMeans | Birch | GaussianMixtures |
 | ------- | ----- | ----- | ----- |
-| MinMax | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_minmax.png" height="200px" width="200px"/>  | <img src="analise/analise_cluster/birch_conversao_temporal_minmax.png" height="200px" width="200px"/>  | <img src="analise/analise_cluster/gaussian_conversao_temporal_minmax.png" height="200px" width="200px"/>  |
-| Standard | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_standard.png" height="200px" width="200px"/>  | <img src="analise/analise_cluster/birch_conversao_temporal_standard.png" height="200px" width="200px"/>  | <img src="analise/analise_cluster/gaussian_conversao_temporal_standard.png" height="200px" width="200px"/>  |
-| Robust | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_robust.png" height="200px" width="200px"/>  | <img src="analise/analise_cluster/birch_conversao_temporal_robust.png" height="200px" width="200px"/>  | <img src="analise/analise_cluster/gaussian_conversao_temporal_robust.png" height="200px" width="200px"/>  |
+| MinMax | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_minmax.png" height="200px" width="200px"/>  | <img src="analise/taxa_conversao_dia/birch_conversao_temporal_minmax.png" height="200px" width="200px"/>  | <img src="analise/taxa_conversao_dia/gaussian_conversao_temporal_minmax.png" height="200px" width="200px"/>  |
+| Standard | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_standard.png" height="200px" width="200px"/>  | <img src="analise/taxa_conversao_dia/birch_conversao_temporal_standard.png" height="200px" width="200px"/>  | <img src="analise/taxa_conversao_dia/gaussian_conversao_temporal_standard.png" height="200px" width="200px"/>  |
+| Robust | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_robust.png" height="200px" width="200px"/>  | <img src="analise/taxa_conversao_dia/birch_conversao_temporal_robust.png" height="200px" width="200px"/>  | <img src="analise/taxa_conversao_dia/gaussian_conversao_temporal_robust.png" height="200px" width="200px"/>  |
 
 
 Para essa análise, usei o job `jobs/particiona_dados/particiona_conversao/job.py` para minerar a quantidade de visitas convertidas e não convertidas
