@@ -72,9 +72,9 @@ Esses gráficos estão nesse [diretório](analise/analise_cluster/), e estão no
 , como exemplo temos o arquivo `birch_instancias_minmax`.
 
 ## MinMax
-| Birch | Birch | Birch |
+| KMeans | Birch | GaussianMixtures |
 | ----- | ----- | ----- |
-| <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px"/>  |
+| <img src="analise/analise_cluster/kmeans_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_instancias_minmax.png" height="400px" width="400px"/>  |
 
 
 
