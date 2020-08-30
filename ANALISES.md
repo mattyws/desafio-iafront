@@ -1,6 +1,8 @@
 # Introdução
 
-Nesse documento irei descrever as análises obtidas por mim para a base de dados e problemas levantados.
+Nesse documento irei descrever as análises obtidas por mim para a base de dados e problemas levantados. Alguns gráficos
+das análises foram mantidos nos arquivos .html, por possuir informações extras ao interagir com os gráficos, ou por
+serem muito grandes para colocar nesse arquivo.
 
 # Analisando Conversão
 
@@ -76,17 +78,20 @@ Esses gráficos estão nesse [diretório](analise/analise_cluster/), e estão no
 | ----- | ----- | ----- |
 | <img src="analise/analise_cluster/kmeans_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_instancias_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_instancias_minmax.png" height="400px" width="400px"/>  |
 
-Iniciando pela distribuição gerada com os dados escalados por **MinMax**, pode-se verificar que nesses que os métodos de clustering
-conseguiram encontrar agrupamentos de pontos próximos, porém por conta da redução de dimensionalidade existe uma certa sobreposição
+Iniciando pela distribuição gerada com os dados escalados por **MinMax**, pode-se verificar nas imagens que os métodos de clustering
+conseguiram encontrar agrupamentos de pontos próximos, porém por conta da redução de dimensionalidade, existe uma certa sobreposição
 de alguns clusters com outros, mas é possível determinar e delimitar as regiões de cada cluster. Essa sobreposição pode indicar
 uma proximidade desses clusters no espaço não reduzido dos dados.
 
 Um comportamento interessante ao olhar para os gráficos gerados por cada um dos modelos é que os pontos mais a direita do gráfico
-não sofreram nenhuma sobbreposição com pontos de outro cluster, o que talvez indique uma facilidade de indicar um comportamento parecido
-para essas instâncias, atribuíndo eles a um mesmo cluster.
+sofreram pouca ou nenhuma sobbreposição com outros clusteres, o que talvez indique uma facilidade de indicar um comportamento parecido
+para essas instâncias.
 
-Olhando o gráfico de conversão dos clusters (no mesmo diretório dos gráficos analisados anteriormente), cada método de clustering
-obteve uma distribuição de quantidade de pontos entre clusters única, porém todos com valores de taxa de conversão muito próximas.
+Olhando os gráficos de conversão para cada clusters, [KMeans](analise/analise_cluster/kmeans_conversao_minmax.html),
+[Birch](analise/analise_cluster/birch_conversao_minmax.html), [GaussianMixtures](analise/analise_cluster/gaussian_conversao_minmax.html)
+(no mesmo diretório dos gráficos analisados anteriormente), cada método de clustering
+obteve uma distribuição de quantidade de pontos entre clusters única, porém todos com valores de taxa de conversão muito próximas, compatíveis
+com a conversão do departamento analisado.
 
 ## Standard
 
@@ -97,11 +102,14 @@ obteve uma distribuição de quantidade de pontos entre clusters única, porém 
 Para estes dados, o **Birch** possui uma distribuição de dados entre clusters parecido com o que foi obtido com o **MinMax** usando o
 mesmo algoritmo. Porém ao observar seu resultado no gráfico do PCA temos um comportamento de distribuição dos clusters totalmente diferente,
 onde para o **MinMax** houve a sobreposição de três clusters, aqui os pontos estão com uma distinção maior de suas fronteiras, com poucas sobreposição
-entre três clusters, mas uma sobreposição de um clusters inteiro em outro.
+entre três clusters, mas uma sobreposição de um clusters inteiro em outro, indicando uma proximidade.
 
 Com o **GaussianMixtures**, o comportamento foi parecido para o gráfico do PCA, porém esse método obteve uma distribuição mais homogênea do número
-de instâncias em cada cluster. Já para o **KMeans**, a distribuição e o gráfico do PCA são quase identicos aos obtidos pelo mesmo método nos dados **MinMax**.
-Assim como no **MinMax** a taxa de conversão das visitas são muito próximas para todos os clusters em todos os algoritmos.
+de instâncias em cada cluster. Já para o **KMeans**, a distribuição e o gráfico do PCA são quase identicos com relação a proximidade entre cluster,
+ aos obtidos pelo mesmo método nos dados **MinMax**.
+Assim como no **MinMax** a taxa de conversão das visitas são muito próximas para todos os clusters em todos os algoritmos. As taxas de conversão para
+cada cluster pode ser vista nos arquivos [KMeans](analise/analise_cluster/kmeans_conversao_standard.html),
+[Birch](analise/analise_cluster/birch_conversao_standard.html), [GaussianMixtures](analise/analise_cluster/gaussian_conversao_standard.html).
 
 ## Robust
 
@@ -114,9 +122,19 @@ do PCA temos regiões lineares de agrupamentos de instâncias, no qual os cluste
 clustering testados.
 
 Para o **Birch** houve uma tendência a ele atribuir uma grande quantidade de instâncias a apenas um cluster, enquanto **GaussianMixtures** e **KMeans** conseguiram
-manter um equilíbrio nessa distribuição. A taxa de conversão também manteve-se próximas para todos os clusters gerados por todas as técnicas.
+manter um equilíbrio nessa distribuição. A taxa de conversão também manteve-se próximas para todos os clusters gerados por todas as técnicas, e
+mantiveram um valor compatível a taxa de conversão do departamento analisado. As taxas de conversão
+para cada cluster estão nos arquivos [KMeans](analise/analise_cluster/kmeans_conversao_robust.html),
+[Birch](analise/analise_cluster/birch_conversao_robust.html), [GaussianMixtures](analise/analise_cluster/gaussian_conversao_robust.html).
 
 # Conversão Diária dos Clusters
+
+| Dataset | KMeans | Birch | GaussianMixtures |
+| ------- | ----- | ----- | ----- |
+| MinMax | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_conversao_temporal_minmax.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_conversao_temporal_minmax.png" height="400px" width="400px"/>  |
+| Standard | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_standard.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_conversao_temporal_standard.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_conversao_temporal_standard.png" height="400px" width="400px"/>  |
+| Robust | <img src="analise/taxa_conversao_dia/kmeans_conversao_temporal_robust.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/birch_conversao_temporal_robust.png" height="400px" width="400px"/>  | <img src="analise/analise_cluster/gaussian_conversao_temporal_robust.png" height="400px" width="400px"/>  |
+
 
 Para essa análise, usei o job `jobs/particiona_dados/particiona_conversao/job.py` para minerar a quantidade de visitas convertidas e não convertidas
 para cada cluster de acordo com algum agrupamento fornecido pelo usuário (data, hora, minuto). Obtendo o cálculo do valor, servi-o como entrada
